@@ -1,11 +1,15 @@
+rootProject.name = 'Demo Integrate Flutter'
 include ':app'
+include ':myflutter'
 
-def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
-def properties = new Properties()
+// For Option B - Depend on the module’s source code
+//setBinding(new Binding([gradle: this]))
+//evaluate(new File(
+//        settingsDir,
+//        '../flutter_module/.android/include_flutter.groovy'
+//))
 
-assert localPropertiesFile.exists()
-localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
-
-def flutterSdkPath = properties.getProperty("flutter.sdk")
-assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
+// For Option B - Depend on the module’s source code
+// Auto add after sync gradle
+//include ':flutter_module'
+//project(':flutter_module').projectDir = new File('../flutter_module')

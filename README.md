@@ -1,61 +1,44 @@
-# multi_image_picker
+# Demo Integrate Flutter
 
-Select Multiple images in Flutter...
+## Description
 
+Demo add Flutter to existing Android and iOS native apps.<br/>
+There are multiple options to embed Flutter module in existing app and I'll choose:<br/>
 
-Add dependecy of image_picker:
-       
-           image_picker: ^0.8.4+3
+- iOS: Option B - Embed frameworks in Xcode.<br>
+Why? Because this option can use $(CONFIGURATION) to dynamically set build mode (debug, release), and later you can push and get these frameworks through any storage (like S3) by pod file. This is suitable for multi-platform development scenarios because a native iOS developer doesn't need to pull and know about Flutter module, it's just a framework to get through pod file like other iOS libs.
 
-
- Then make a method for selectImages():
-
-          final ImagePicker imagePicker = ImagePicker();
-          List<XFile>? imageFileList = [];
-
-          void selectImages() async {
-             final List<XFile>? selectedImages = await 
-                    imagePicker.pickMultiImage();
-               if (selectedImages!.isNotEmpty) {
-                  imageFileList!.addAll(selectedImages);
-               }
-              print("Image List Length:" + imageFileList!.length.toString());
-              setState((){});
-          }
-
-Create a builder for showing selected Images:
+- Android: Option A - Depend on the Android Archive (AAR).<br>
+This option allows your team to build the host app without installing the Flutter SDK. You can then distribute the artifacts from a local or remote repository (similar framework in iOS).
 
 
-         return Scaffold(
-              appBar: AppBar(
-              title: Text('Multiple Images'),
-             ),
-            body: SafeArea(
-               child: Column(
-                 children: [
-                     ElevatedButton(
-                        onPressed: () {
-                          selectImages();
-                      },
-                     child: Text('Select Images'),
-                   ),
-                   Expanded(
-                      child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GridView.builder(
-                            itemCount: imageFileList!.length,
-                           gridDelegate: 
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3),
-                              itemBuilder: (BuildContext context, int index) {
-                               return Image.file(File(imageFileList![index].path), 
-                            fit: BoxFit.cover,);
-                         }),
-                     ),
-                   ),
-                 ],
-                ),
-              ));
+## Feature
 
+- Add Flutter to existing native project (Android & iOS).
+- Running multiple Flutter instances (different engine, entrypoint) with partial screen & full screen.
 
-Complete source code available above in repository.......
+## How to run
+
+- Clone this repository.
+- Go to Flutter module (flutter_module).
+- Run `flutter pub get`, `flutter build aar`, `flutter build ios-framework` to regenerate AAR and Framework files.
+- You must run these command every time you make code changes in your Flutter module to see affect when run in native.
+
+### Android
+
+- Open ./android folder by Android Studio then run the app as usual.
+
+### iOS
+
+- Go to ./ios folder.
+- Run `pod install` command.
+- Open .xcworkspace file to run the app by Xcode.
+
+## Demo
+
+https://youtu.be/8u6MEziPCdY
+
+## Screenshots
+
+<img src="screenshots/android.gif" alt= "android" height="500">
+<img src="screenshots/ios.gif" alt= "ios" height="500">
